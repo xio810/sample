@@ -1,39 +1,74 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) throws Exception {
+        System.out.println("== 프로그램 시작 ==");
 
         Scanner sc = new Scanner(System.in);
 
         int lastArticleId = 0;
 
+        List<Article> articles = new ArrayList<>();
+
         while (true) {
-            System.out.println("명령어 입력");
+            System.out.printf("명령어) ");
             String command = sc.nextLine();
 
             command = command.trim();
 
+            if (command.length() == 0) {
+                continue;
+            }
+
             if (command.equals("exit")) {
                 break;
             }
-
             if (command.equals("write")) {
                 int id = lastArticleId + 1;
                 lastArticleId = id;
-                System.out.println("제목입력");
+                System.out.printf("제목 : ");
                 String title = sc.nextLine();
-                System.out.println("내용입력");
+                System.out.printf("내용 : ");
                 String body = sc.nextLine();
 
-                System.out.printf("%d번 글 생성\n", lastArticleId);
+                Article article = new Article(id, title, body);
+                articles.add(article);
+
+                System.out.printf("%d번글이 생성되었습니다.\n", id);
+
             } else if (command.equals("list")) {
-                System.out.println("없음");
+                if (articles.size() == 0) {
+                    System.out.println("게시물이 없습니다.");
+                    continue;
+                }
+                System.out.println("번호 | 제목");
+                for (int i = 0; i < articles.size(); i++) {
+                    Article article = articles.get(i);
+
+                    System.out.printf("%d    | %s\n", article.id, article.title);
+                }
+
             } else {
-                System.out.println(command + "은(는) 존재하지 않는 명령어 입니다.");
+                System.out.printf("%s(은)는 존재하지 않는 명령어 입니다.\n", command);
             }
         }
+
         sc.close();
 
-        System.out.println("프로그램 종료");
+        System.out.println("== 프로그램 끝 ==");
+    }
+}
+
+class Article {
+    int id;
+    String title;
+    String body;
+
+    public Article(int id, String title, String body) {
+        this.id = id;
+        this.title = title;
+        this.body = body;
     }
 }
