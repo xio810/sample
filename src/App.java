@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.plaf.synth.Region;
+
 public class App {
     public static void main(String[] args) throws Exception {
         System.out.println("== 프로그램 시작 ==");
@@ -29,12 +31,13 @@ public class App {
             if (command.equals("write")) {
                 int id = lastArticleId + 1;
                 lastArticleId = id;
+                String regDate = Util.getNowDateStr();
                 System.out.printf("제목 : ");
                 String title = sc.nextLine();
                 System.out.printf("내용 : ");
                 String body = sc.nextLine();
 
-                Article article = new Article(id, title, body);
+                Article article = new Article(id, regDate, title, body);
                 articles.add(article);
 
                 System.out.printf("%d번글이 생성되었습니다.\n", id);
@@ -72,7 +75,7 @@ public class App {
                 }
 
                 System.out.printf("번호 : %d\n", foundArticle.id);
-                System.out.printf("날짜 : 2020-07-05 15:35:34\n");
+                System.out.printf("날짜 : %s\n", foundArticle.regDate);
                 System.out.printf("제목 : %s\n", foundArticle.title);
                 System.out.printf("내용 : %s\n", foundArticle.body);
 
@@ -111,11 +114,13 @@ public class App {
 
 class Article {
     int id;
+    String regDate;
     String title;
     String body;
 
-    public Article(int id, String title, String body) {
+    public Article(int id, String regDate, String title, String body) {
         this.id = id;
+        this.regDate = regDate;
         this.title = title;
         this.body = body;
     }
