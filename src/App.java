@@ -73,11 +73,13 @@ public class App {
                     System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
                     continue;
                 }
+                foundArticle.increaseViews();
 
                 System.out.printf("번호 : %d\n", foundArticle.id);
                 System.out.printf("날짜 : %s\n", foundArticle.regDate);
                 System.out.printf("제목 : %s\n", foundArticle.title);
                 System.out.printf("내용 : %s\n", foundArticle.body);
+                System.out.printf("조회 : %s\n", foundArticle.views);
 
             } else if (command.equals("delete")) {
                 System.out.println("번호입력");
@@ -146,11 +148,17 @@ class Article {
     String regDate;
     String title;
     String body;
+    int views;
 
     public Article(int id, String regDate, String title, String body) {
         this.id = id;
         this.regDate = regDate;
         this.title = title;
         this.body = body;
+        this.views = 0;
+    }
+
+    public void increaseViews() {
+        views++;
     }
 }
