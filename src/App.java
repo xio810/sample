@@ -1,19 +1,23 @@
-import java.rmi.ConnectIOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.swing.plaf.synth.Region;
-
 public class App {
+
+    private static List<Article> articles;
+
+    static {
+        articles = new ArrayList<>();
+    }
+
     public static void main(String[] args) throws Exception {
         System.out.println("== 프로그램 시작 ==");
+
+        makeTestData();
 
         Scanner sc = new Scanner(System.in);
 
         int lastArticleId = 0;
-
-        List<Article> articles = new ArrayList<>();
 
         while (true) {
             System.out.printf("명령어) ");
@@ -29,8 +33,8 @@ public class App {
                 break;
             }
             if (command.equals("write")) {
-                int id = lastArticleId + 1;
-                lastArticleId = id;
+                int id = articles.size() + 1;
+
                 String regDate = Util.getNowDateStr();
                 System.out.printf("제목 : ");
                 String title = sc.nextLine();
@@ -47,11 +51,11 @@ public class App {
                     System.out.println("게시물이 없습니다.");
                     continue;
                 }
-                System.out.println("번호 | 제목");
+                System.out.println("번호 | 조회 | 제목");
                 for (int i = 0; i < articles.size(); i++) {
                     Article article = articles.get(i);
 
-                    System.out.printf("%d    | %s\n", article.id, article.title);
+                    System.out.printf("%4d | %4d | %s\n", article.id, article.views, article.title);
                 }
 
             } else if (command.equals("detail")) {
@@ -141,6 +145,13 @@ public class App {
 
         System.out.println("== 프로그램 끝 ==");
     }
+
+    private static void makeTestData() {
+        System.out.println("test data");
+        articles.add(new Article(1, Util.getNowDateStr(), "제목1", "내용1", 11));
+        articles.add(new Article(2, Util.getNowDateStr(), "제목2", "내용2", 22));
+        articles.add(new Article(3, Util.getNowDateStr(), "제목3", "내용3", 33));
+    }
 }
 
 class Article {
@@ -151,11 +162,15 @@ class Article {
     int views;
 
     public Article(int id, String regDate, String title, String body) {
+        this(id, regDate, title, body, 0);
+    }
+
+    public Article(int id, String regDate, String title, String body, int views) {
         this.id = id;
         this.regDate = regDate;
         this.title = title;
         this.body = body;
-        this.views = 0;
+        this.views = views;
     }
 
     public void increaseViews() {
