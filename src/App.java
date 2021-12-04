@@ -2,15 +2,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import dto.Article;
+import util.Util;
+
 public class App {
 
-    private static List<Article> articles;
+    private List<Article> articles;
 
-    static {
+    public App() {
         articles = new ArrayList<>();
     }
 
-    public static void main(String[] args) throws Exception {
+    public void start() {
         System.out.println("== 프로그램 시작 ==");
 
         makeTestData();
@@ -146,34 +149,10 @@ public class App {
         System.out.println("== 프로그램 끝 ==");
     }
 
-    private static void makeTestData() {
+    private void makeTestData() {
         System.out.println("test data");
         articles.add(new Article(1, Util.getNowDateStr(), "제목1", "내용1", 11));
         articles.add(new Article(2, Util.getNowDateStr(), "제목2", "내용2", 22));
         articles.add(new Article(3, Util.getNowDateStr(), "제목3", "내용3", 33));
-    }
-}
-
-class Article {
-    int id;
-    String regDate;
-    String title;
-    String body;
-    int views;
-
-    public Article(int id, String regDate, String title, String body) {
-        this(id, regDate, title, body, 0);
-    }
-
-    public Article(int id, String regDate, String title, String body, int views) {
-        this.id = id;
-        this.regDate = regDate;
-        this.title = title;
-        this.body = body;
-        this.views = views;
-    }
-
-    public void increaseViews() {
-        views++;
     }
 }
