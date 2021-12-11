@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -23,12 +24,12 @@ public class MemberController extends Controller {
         }
     }
 
-    public MemberController(Scanner sc, List<Member> members) {
+    public MemberController(Scanner sc) {
         this.sc = sc;
-        this.members = members;
+        members = new ArrayList<Member>();
     }
 
-    public void doJoin() {
+    private void doJoin() {
 
         int id = members.size() + 1;
         String regDate = Util.getNowDateStr();
