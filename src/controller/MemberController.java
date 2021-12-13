@@ -59,39 +59,6 @@ public class MemberController extends Controller {
         System.out.printf("로그인 성공! %s님 환영합니다.\n", loginedMember.name);
     }
 
-    private Member getMemberByLoginId(String loginId) {
-        int index = getMemberIndexByLoginId(loginId);
-
-        if (index == -1) {
-            return null;
-        }
-
-        return members.get(index);
-    }
-
-    private int getMemberIndexByLoginId(String loginId) {
-        int i = 0;
-        for (Member member : members) {
-            if (member.loginId.equals(loginId)) {
-                return i;
-            }
-
-            i++;
-        }
-
-        return -1;
-    }
-
-    private boolean isJoinableLoginId(String loginId) {
-        int index = getMemberIndexByLoginId(loginId);
-
-        if (index == -1) {
-            return true;
-        }
-
-        return false;
-    }
-
     private void doJoin() {
         int id = members.size() + 1;
         String regDate = Util.getNowDateStr();
@@ -134,6 +101,39 @@ public class MemberController extends Controller {
         members.add(member);
 
         System.out.printf("%d번 회원이 생성되었습니다. 환영합니다.\n", id);
+    }
+
+    private Member getMemberByLoginId(String loginId) {
+        int index = getMemberIndexByLoginId(loginId);
+
+        if (index == -1) {
+            return null;
+        }
+
+        return members.get(index);
+    }
+
+    private int getMemberIndexByLoginId(String loginId) {
+        int i = 0;
+        for (Member member : members) {
+            if (member.loginId.equals(loginId)) {
+                return i;
+            }
+
+            i++;
+        }
+
+        return -1;
+    }
+
+    private boolean isJoinableLoginId(String loginId) {
+        int index = getMemberIndexByLoginId(loginId);
+
+        if (index == -1) {
+            return true;
+        }
+
+        return false;
     }
 
     public void makeTestData() {

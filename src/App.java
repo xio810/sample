@@ -8,7 +8,6 @@ import controller.Controller;
 import controller.MemberController;
 import dto.Article;
 import dto.Member;
-import util.Util;
 
 public class App {
     private List<Article> articles;
