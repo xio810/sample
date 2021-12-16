@@ -5,6 +5,7 @@ import java.util.List;
 import container.Container;
 import dao.ArticleDao;
 import dto.Article;
+import dto.Member;
 
 public class ArticleService {
     ArticleDao articleDao;
@@ -28,4 +29,5 @@ public class ArticleService {
     public void remove(Article foundArticle) {
         articleDao.remove(foundArticle);
     }
+
 }

@@ -6,19 +6,20 @@ import java.util.Scanner;
 
 import container.Container;
 import dto.Member;
+import service.MemberService;
 import util.Util;
 
 public class MemberController extends Controller {
     private Scanner sc;
-    private List<Member> members;
     private String command;
     private String actionMethodName;
+    private MemberService memberService;
 
     public MemberController(Scanner sc) {
         this.sc = sc;
 
         // members = new ArrayList<Member>();
-        members = Container.memberDao.members;
+        memberService = Container.memberService;
     }
 
     public void doAction(String command, String actionMethodName) {
@@ -54,7 +55,7 @@ public class MemberController extends Controller {
         System.out.printf("로그인 비번 : ");
         String loginPw = sc.nextLine();
 
-        Member member = getMemberByLoginId(loginId);
+        Member member = memberService.getMemberByLoginId(loginId);
 
         if (member == null) {
             System.out.println("해당회원은 존재하지 않습니다.");
@@ -114,31 +115,8 @@ public class MemberController extends Controller {
         System.out.printf("%d번 회원이 생성되었습니다. 환영합니다.\n", id);
     }
 
-    private Member getMemberByLoginId(String loginId) {
-        int index = getMemberIndexByLoginId(loginId);
-
-        if (index == -1) {
-            return null;
-        }
-
-        return members.get(index);
-    }
-
-    private int getMemberIndexByLoginId(String loginId) {
-        int i = 0;
-        for (Member member : members) {
-            if (member.loginId.equals(loginId)) {
-                return i;
-            }
-
-            i++;
-        }
-
-        return -1;
-    }
-
     private boolean isJoinableLoginId(String loginId) {
-        int index = getMemberIndexByLoginId(loginId);
+        int index = memberService.getMemberIndexByLoginId(loginId);
 
         if (index == -1) {
             return true;
