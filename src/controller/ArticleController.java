@@ -8,6 +8,7 @@ import container.Container;
 import dto.Article;
 import dto.Member;
 import service.ArticleService;
+import service.MemberService;
 import util.Util;
 
 public class ArticleController extends Controller {
@@ -15,12 +16,14 @@ public class ArticleController extends Controller {
     private String command;
     private String actionMethodName;
     private ArticleService articleService;
+    private MemberService memberService;
 
     public ArticleController(Scanner sc) {
         this.sc = sc;
 
         // articles = new ArrayList<Article>();
         articleService = Container.articleService;
+        memberService = Container.memberService;
     }
 
     public void doAction(String command, String actionMethodName) {
@@ -72,17 +75,7 @@ public class ArticleController extends Controller {
         System.out.println("번호 |        작성자 | 조회 | 제목");
         for (int i = forPrintArticles.size() - 1; i >= 0; i--) {
             Article article = forPrintArticles.get(i);
-
-            String writerName = null;
-
-            List<Member> members = Container.memberDao.members;
-
-            for (Member member : members) {
-                if (article.memberId == member.id) {
-                    writerName = member.name;
-                    break;
-                }
-            }
+            String writerName = memberService.getMemberNameById(article.memberId);
 
             System.out.printf("%4d | %10s | %4d | %s\n", article.id, writerName, article.views, article.title);
         }
@@ -101,17 +94,7 @@ public class ArticleController extends Controller {
 
         foundArticle.increaseViews();
         //
-        String writerName = null;
-
-        List<Member> members = Container.memberDao.members;
-
-        for (Member member : members) {
-            if (foundArticle.memberId == member.id) {
-                writerName = member.name;
-                break;
-            }
-
-        }
+        String writerName = memberService.getMemberNameById(foundArticle.memberId);
 
         System.out.printf("번호 : %d\n", foundArticle.id);
         System.out.printf("날짜 : %s\n", foundArticle.regDate);
